@@ -75,7 +75,7 @@
     if (self = [super initWithWindowNibName:@"DocumentWindow"]) {
 	layoutMgr = [[NSLayoutManager allocWithZone:[self zone]] init];
 	[layoutMgr setDelegate:self];
-	[layoutMgr setAllowsNonContiguousLayout:YES];
+	//[layoutMgr setAllowsNonContiguousLayout:YES];
     }
     return self;
 }
@@ -173,14 +173,14 @@
     // There is no UI at this stage for this preference.
     BOOL substitutionsOK = [[self document] isRichText] || ![defaults boolForKey:SubstitutionsEnabledInRichTextOnly];    
     [textView setContinuousSpellCheckingEnabled:[defaults boolForKey:CheckSpellingAsYouType]];
-    [textView setGrammarCheckingEnabled:[defaults boolForKey:CheckGrammarWithSpelling]];
-    [textView setAutomaticSpellingCorrectionEnabled:substitutionsOK && [defaults boolForKey:CorrectSpellingAutomatically]];
+    // [textView setGrammarCheckingEnabled:[defaults boolForKey:CheckGrammarWithSpelling]];
+    //[textView setAutomaticSpellingCorrectionEnabled:substitutionsOK && [defaults boolForKey:CorrectSpellingAutomatically]];
     [textView setSmartInsertDeleteEnabled:[defaults boolForKey:SmartCopyPaste]];
-    [textView setAutomaticQuoteSubstitutionEnabled:substitutionsOK && [defaults boolForKey:SmartQuotes]];
-    [textView setAutomaticDashSubstitutionEnabled:substitutionsOK && [defaults boolForKey:SmartDashes]];
-    [textView setAutomaticLinkDetectionEnabled:[defaults boolForKey:SmartLinks]];
-    [textView setAutomaticDataDetectionEnabled:[defaults boolForKey:DataDetectors]];
-    [textView setAutomaticTextReplacementEnabled:substitutionsOK && [defaults boolForKey:TextReplacement]];
+    //[textView setAutomaticQuoteSubstitutionEnabled:substitutionsOK && [defaults boolForKey:SmartQuotes]];
+    //[textView setAutomaticDashSubstitutionEnabled:substitutionsOK && [defaults boolForKey:SmartDashes]];
+    //[textView setAutomaticLinkDetectionEnabled:[defaults boolForKey:SmartLinks]];
+    //[textView setAutomaticDataDetectionEnabled:[defaults boolForKey:DataDetectors]];
+    //[textView setAutomaticTextReplacementEnabled:substitutionsOK && [defaults boolForKey:TextReplacement]];
     
     [textView setSelectedRange:NSMakeRange(0, 0)];
 }
@@ -284,15 +284,26 @@
     [attrString endEditing];
 }
 
+
+
 /* This method implements panel-based "attach" functionality. Note that as-is, it's set to accept all files; however, by setting allowed types on the open panel it can be restricted to images, etc.
 */
 - (void)chooseAndAttachFiles:(id)sender {
     NSOpenPanel *panel = [NSOpenPanel openPanel];
     [panel setCanChooseDirectories:YES];
     [panel setAllowsMultipleSelection:YES];
-    // Use the 10.6-introduced sheet API with block handler
-    [panel beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result) {
-	if (result == NSFileHandlingPanelOKButton) {	// Only if not cancelled
+
+    [panel beginSheetForDirectory: nil
+			     file: nil
+		   modalForWindow: [self window]
+		    modalDelegate: self
+		   didEndSelector: @selector(savePanelDidEnd:returnCode:contextInfo:)
+		      contextInfo: nil];
+}
+
+- (void)savePanelDidEnd:(NSSavePanel *)panel returnCode:(NSInteger)result contextInfo:(void *)contextInfo
+{
+	if (result == NSOKButton) {	// Only if not cancelled
             NSArray *urls = [panel URLs];
 	    NSTextView *textView = [self firstTextView];
 	    NSInteger numberOfErrors = 0;
@@ -300,8 +311,11 @@
 	    NSMutableAttributedString *attachments = [[NSMutableAttributedString alloc] init];
 
 	    // Process all the attachments, creating an attributed string 
-	    for (NSURL *url in urls) {
-		NSFileWrapper *wrapper = [[NSFileWrapper alloc] initWithURL:url options:NSFileWrapperReadingImmediate error:&error];
+	    for (NSUInteger i = 0; i<[urls count]; i++)
+	      {
+		NSURL *url = [urls objectAtIndex: i];
+
+		NSFileWrapper *wrapper = [[NSFileWrapper alloc] initWithPath: [url path]]; //URL:url options:NSFileWrapperReadingImmediate error:&error];
 		if (wrapper) {
 		    NSTextAttachment *attachment = [[NSTextAttachment alloc] initWithFileWrapper:wrapper];
 		    [attachments appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
@@ -334,7 +348,6 @@
 		[[self window] presentError:error modalForWindow:[self window] delegate:nil didPresentSelector:NULL contextInfo:NULL];
 	    }
 	}
-     }];
 }
 
 
@@ -522,7 +535,7 @@ attachmentFlag allows for optimizing some cases where we know we have no attachm
 	    NSInteger windowWidth = [defaults integerForKey:WindowWidth];
 	    NSFont *font = [[self document] isRichText] ? [NSFont userFontOfSize:0.0] : [NSFont userFixedPitchFontOfSize:0.0];
             NSSize size;
-            size.height = ceil([[self layoutManager] defaultLineHeightForFont:font] * windowHeight);
+            size.height = ceil([font defaultLineHeightForFont] * windowHeight);
             size.width = [@"x" sizeWithAttributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width;
             if (size.width == 0.0) size.width = [@" " sizeWithAttributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width; /* try for space width */
             if (size.width == 0.0) size.width = [font maximumAdvancement].width; /* or max width */
@@ -661,48 +674,53 @@ attachmentFlag allows for optimizing some cases where we know we have no attachm
 /* Text view delegation messages */
 
 - (BOOL)textView:(NSTextView *)textView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
-    NSURL *linkURL = nil;
+  NSURL *linkURL = nil;
     
-    if ([link isKindOfClass:[NSURL class]]) {	// Handle NSURL links
-        linkURL = link;
-    } else if ([link isKindOfClass:[NSString class]]) {	// Handle NSString links
-        linkURL = [NSURL URLWithString:link relativeToURL:[[self document] fileURL]];
+  if ([link isKindOfClass:[NSURL class]]) {	// Handle NSURL links
+    linkURL = link;
+  } else if ([link isKindOfClass:[NSString class]]) {	// Handle NSString links
+    linkURL = [NSURL URLWithString:link relativeToURL:[[self document] fileURL]];
+  }
+  if (linkURL)
+    {
+      NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
+      if ([linkURL isFileURL])
+	{
+	  NSError *error;
+	  if (![linkURL checkResourceIsReachableAndReturnError:&error]) {	// To be able to present an error panel, see if the file is reachable
+	    [[self window] presentError:error modalForWindow:[self window] delegate:nil didPresentSelector:NULL contextInfo:NULL];
+	    return YES;
+	  } else {
+	    // Special case: We want to open text types in TextEdit, as presumably that is what was desired
+	    
+	    NSString *ext = [[linkURL path] pathExtension];
+	    
+	    BOOL openInTextEdit = NO;
+	    if ([ext isEqualToString: @"rtf"] || [ext isEqualToString: @"rtfd"] || [ext isEqualToString: @"txt"])
+	      {
+		openInTextEdit = YES;
+	      }
+
+	    if (openInTextEdit) {
+	      if ([[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:linkURL display:YES error:NULL]) 
+		return YES;                    
+	    }
+	  }
+	  // Other file URLs are displayed in Finder
+	  if ([workspace openURL:linkURL]) return YES;
+	  //[workspace activateFileViewerSelectingURLs:[NSArray arrayWithObject:linkURL]];
+	  //return YES;	  
+	} 
+      else // not file URL
+	{
+	  // Other URLs are simply opened
+	  if ([workspace openURL:linkURL]) return YES;
+	}
     }
-    if (linkURL) {
-        NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
-        if ([linkURL isFileURL]) {
-	    NSError *error;
-            if (![linkURL checkResourceIsReachableAndReturnError:&error]) {	// To be able to present an error panel, see if the file is reachable
-		[[self window] presentError:error modalForWindow:[self window] delegate:nil didPresentSelector:NULL contextInfo:NULL];
-		return YES;
-	    } else {
-                // Special case: We want to open text types in TextEdit, as presumably that is what was desired
-                NSString *typeIdentifier = nil;
-                if ([linkURL getResourceValue:&typeIdentifier forKey:NSURLTypeIdentifierKey error:NULL] && typeIdentifier) {
-                    BOOL openInTextEdit = NO;
-                    for (NSString *textTypeIdentifier in [NSAttributedString textTypes]) {
-                        if ([workspace type:typeIdentifier conformsToType:textTypeIdentifier]) {
-                            openInTextEdit = YES;
-                            break;
-                        }
-                    }
-                    if (openInTextEdit) {
-                        if ([[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:linkURL display:YES error:NULL]) return YES;                    
-                    }
-                }
-                // Other file URLs are displayed in Finder
-                [workspace activateFileViewerSelectingURLs:[NSArray arrayWithObject:linkURL]];
-                return YES;
-            }
-        } else {
-            // Other URLs are simply opened
-            if ([workspace openURL:linkURL]) return YES;
-        }
-    }
-    
-    // We only get here on failure... Because we beep, we return YES to indicate "success", so the text system does no further processing.
-    NSBeep();
-    return YES;
+  
+  // We only get here on failure... Because we beep, we return YES to indicate "success", so the text system does no further processing.
+  NSBeep();
+  return YES;
 }
 
 - (void)textView:(NSTextView *)view doubleClickedOnCell:(id <NSTextAttachmentCell>)cell inRect:(NSRect)rect {

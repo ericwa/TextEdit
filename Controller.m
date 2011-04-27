@@ -130,7 +130,7 @@ static NSDictionary *defaultValues() {
     NSString *filename, *origFilename;
     NSURL *url = nil;
     NSError *err = nil;
-    NSString *type = [pboard availableTypeFromArray:[NSArray arrayWithObject:(NSString *)kUTTypePlainText]];
+    NSString *type = [pboard availableTypeFromArray:[NSArray arrayWithObject: NSStringPboardType]];
 
     if (type && (filename = origFilename = [pboard stringForType:type])) {
         BOOL success = NO;

@@ -58,12 +58,12 @@
 
 - (void)setPageNumbering:(BOOL)flag {
     NSPrintInfo *printInfo = [self representedObject];
-    [[printInfo dictionary] setObject:[NSNumber numberWithBool:flag] forKey:NSPrintHeaderAndFooter];
+    //[[printInfo dictionary] setObject:[NSNumber numberWithBool:flag] forKey:NSPrintHeaderAndFooter];
 }
 
 - (BOOL)pageNumbering {
     NSPrintInfo *printInfo = [self representedObject];
-    return [[[printInfo dictionary] objectForKey:NSPrintHeaderAndFooter] boolValue];
+    //return [[[printInfo dictionary] objectForKey:NSPrintHeaderAndFooter] boolValue];
 }
 
 - (IBAction)changePageNumbering:(id)sender {
@@ -77,11 +77,12 @@
 /* This enables TextEdit-specific settings to be displayed in the Summary pane of the print panel
 */
 - (NSArray *)localizedSummaryItems {
-    return [NSArray arrayWithObject:
+  return [NSArray array];
+  /*    return [NSArray arrayWithObject:
 	    [NSDictionary dictionaryWithObjectsAndKeys:
 		NSLocalizedStringFromTable(@"Header and Footer", @"PrintPanelAccessory", @"Print panel summary item title for whether header and footer (page number, date, document title) should be printed"), NSPrintPanelAccessorySummaryItemNameKey,
 		[self pageNumbering] ? NSLocalizedStringFromTable(@"On", @"PrintPanelAccessory", @"Print panel summary value when header and footer printing is on") : NSLocalizedStringFromTable(@"Off", @"PrintPanelAccessory", @"Print panel summary value when header and footer printing is off"), NSPrintPanelAccessorySummaryItemDescriptionKey,
-		nil]];
+		nil]]; */
 }
 
 @end

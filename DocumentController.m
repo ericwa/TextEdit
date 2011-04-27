@@ -79,7 +79,8 @@
 */
 - (Document *)openDocumentWithContentsOfPasteboard:(NSPasteboard *)pb display:(BOOL)display error:(NSError **)error {
     // Read type and attributed string.
-    NSString *pasteboardType = [pb availableTypeFromArray:[NSAttributedString readableTypesForPasteboard:pb]];
+    NSString *pasteboardType = [pb availableTypeFromArray: 
+				     [NSArray arrayWithObjects: NSRTFDPboardType, NSRTFPboardType, NSStringPboardType, nil]];
     NSData *data = [pb dataForType:pasteboardType];
     NSAttributedString *string = nil;
     NSString *type = nil;
@@ -91,11 +92,11 @@
         // We only expect to see plain-text, RTF, and RTFD at this point.
         NSString *docType = [attributes objectForKey:NSDocumentTypeDocumentAttribute];
         if ([docType isEqualToString:NSPlainTextDocumentType]) {
-            type = (NSString *)kUTTypePlainText;
+	  type = @"txt";
         } else if ([docType isEqualToString:NSRTFTextDocumentType]) {
-            type = (NSString *)kUTTypeRTF;
+	  type = @"rtf";
         } else if ([docType isEqualToString:NSRTFDTextDocumentType]) {
-            type = (NSString *)kUTTypeRTFD;
+	  type = @"rtfd";
         }
     }
     
@@ -118,7 +119,7 @@
             
             NSTextStorage *text = [doc textStorage];
             [text replaceCharactersInRange:NSMakeRange(0, [text length]) withAttributedString:string];
-            if ([[NSWorkspace sharedWorkspace] type:type conformsToType:(NSString *)kUTTypePlainText]) [doc applyDefaultTextAttributes:NO];
+            if ([type isEqualToString: @"txt"]) [doc applyDefaultTextAttributes:NO];
             
             [self addDocument:doc];
             [doc updateChangeCount:NSChangeReadOtherContents];
@@ -145,17 +146,6 @@
     Document *doc = [super openUntitledDocumentAndDisplay:displayDocument error:outError];
     
     if (!doc) return nil;
-    
-    if ([[self documents] count] == 1) {
-        // Determine whether this document might be a transient one
-        // Check if there is a current AppleEvent. If there is, check whether it is an open or reopen event. In that case, the document being created is transient.
-        NSAppleEventDescriptor *evtDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
-        AEEventID evtID = [evtDesc eventID];
-        
-        if (evtDesc && (evtID == kAEReopenApplication || evtID == kAEOpenApplication) && [evtDesc eventClass] == kCoreEventClass) {
-            [doc setTransient:YES];
-        }
-    }
     
     return doc;
 }
@@ -196,12 +186,12 @@
         [controllersToTransfer release];
 	
 	// We replaced the value of the transient document with opened document, need to notify accessibility clients.
-	for (NSLayoutManager *layoutManager in [[(Document *)doc textStorage] layoutManagers]) {
+	/*for (NSLayoutManager *layoutManager in [[(Document *)doc textStorage] layoutManagers]) {
 	    for (NSTextContainer *textContainer in [layoutManager textContainers]) {
 		NSTextView *textView = [textContainer textView];
 		if (textView) NSAccessibilityPostNotification(textView, NSAccessibilityValueChangedNotification);
 	    }
-	}
+	    }*/
 	
     } else {
         [self performSelectorOnMainThread:_cmd withObject:documents waitUntilDone:YES];
@@ -238,7 +228,12 @@
         NSArray *documentsToDisplay = deferredDocuments;
         deferredDocuments = nil;
         [displayDocumentLock unlock];
-        for (NSDocument *document in documentsToDisplay) [self displayDocument:document];
+
+	for (NSUInteger i = 0; i<[documentsToDisplay count]; i++)
+	  {
+	    NSDocument *document = [documentsToDisplay objectAtIndex: i];
+	    [self displayDocument:document];
+	  }
         [documentsToDisplay release];
     } else if (doc && displayDocument) {
         [displayDocumentLock lock];
@@ -311,7 +306,11 @@
 	    ignoreHTML = ignoreRich = (ignoreState == NSOnState);
 	}
         NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithUnsignedInteger:encoding], PlainTextEncodingForRead, [NSNumber numberWithBool:ignoreHTML], IgnoreHTML, [NSNumber numberWithBool:ignoreRich], IgnoreRichText, nil];
-        for (NSURL *url in [openPanel URLs]) {
+
+	for (NSUInteger i = 0; i<[[openPanel URLs] count]; i++)
+	  {
+	    NSURL *url = [[openPanel URLs] objectAtIndex: i];
+							   
             [customOpenSettings setObject:options forKey:url];
         }
     }
@@ -337,7 +336,7 @@
    -defaultType to return the appropriate type string. 
 */
 - (NSString *)defaultType {
-    return (NSString *)([[NSUserDefaults standardUserDefaults] boolForKey:RichText] ? kUTTypeRTF : kUTTypePlainText);
+  return (NSString *)([[NSUserDefaults standardUserDefaults] boolForKey:RichText] ? @"rtf" : @"txt");
 }
 
 @end

@@ -1,7 +1,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface PrintPanelAccessoryController : NSViewController <NSPrintPanelAccessorizing>
+@interface PrintPanelAccessoryController : NSViewController// <NSPrintPanelAccessorizing>
 
 - (IBAction)changePageNumbering:(id)sender;
 
