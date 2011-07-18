@@ -1,56 +1,77 @@
 {
-  ApplicationName = "TextEdit";
-  NSMainNibFile = Edit;
-  NSServices = (
-        {
-             NSMenuItem = { default = "TextEdit/Open Selection"; };
-	     NSMessage = openSelection;
-	     NSPortName = TextEdit;
-	     NSSendTypes = (
-	          NSStringPboardType,
-		  NSRTFPboardType,
-		  NSRTFDPboardType
-	     );
-        },
-        {
-             NSMenuItem = { default = "TextEdit/Open File"; };
-	     NSMessage = openFile;
-	     NSPortName = TextEdit;
-	     NSSendTypes = ( 
-	          NSStringPboardType,
-		  NSFilenamesPboardType
-	     );
-        }
-  );
-  NSTypes = (
-        {
-             NSName = "rtf";
-             NSHumanReadableName = "RTF Document";
-             NSUnixExtensions = ("rtf");
-             NSDOSExtensions = ("rtf");
-	           NSMIMETypes = ("text/rtf");
-	           NSIcon = FileIcon_rtf;
-             NSRole = Editor;
-             NSDocumentClass = Document;
-        },
-        {
-             NSName = "rtfd";
-             NSHumanReadableName = "RTFD Document";
-             NSUnixExtensions = ("rtfd");
-             NSDOSExtensions = ("rtfd");
-	           NSIcon = FileIcon_rtf;
-             NSRole = Editor;
-             NSDocumentClass = Document;
-        },
-        {
-             NSName = "text";
-             NSHumanReadableName = "Text Document";
-             NSUnixExtensions = ("txt");
-             NSDOSExtensions = ("txt");
-	           NSMIMETypes = ("text/plain");
-             NSIcon = FileIcon_txt;
-             NSRole = Editor;
-             NSDocumentClass = Document;
-        }
-  );
+	NSPrincipalClass = NSApplication;
+	ApplicationName = TextEdit;
+	NSMainNibFile = Edit;
+	NSServices = (
+		{
+			NSMenuItem = {
+				default = "TextEdit/Open Selection";
+			};
+			NSMessage = openSelection;
+			NSPortName = TextEdit;
+			NSSendTypes = (
+				NSStringPboardType,
+				NSRTFPboardType,
+				NSRTFDPboardType,
+			);
+		},
+		{
+			NSMenuItem = {
+				default = "TextEdit/Open File";
+			};
+			NSMessage = openFile;
+			NSPortName = TextEdit;
+			NSSendTypes = (
+				NSStringPboardType,
+				"NSFilenamesPboardType",
+			);
+		},
+	);
+	NSTypes = (
+		{
+			NSName = rtf;
+			NSHumanReadableName = "RTF Document";
+			NSUnixExtensions = (
+				rtf,
+			);
+			NSDOSExtensions = (
+				rtf,
+			);
+			NSMIMETypes = (
+				"text/rtf",
+			);
+			NSIcon = "FileIcon_rtf";
+			NSRole = Editor;
+			NSDocumentClass = Document;
+		},
+		{
+			NSName = rtfd;
+			NSHumanReadableName = "RTFD Document";
+			NSUnixExtensions = (
+				rtfd,
+			);
+			NSDOSExtensions = (
+				rtfd,
+			);
+			NSIcon = "FileIcon_rtf";
+			NSRole = Editor;
+			NSDocumentClass = Document;
+		},
+		{
+			NSName = text;
+			NSHumanReadableName = "Text Document";
+			NSUnixExtensions = (
+				txt,
+			);
+			NSDOSExtensions = (
+				txt,
+			);
+			NSMIMETypes = (
+				"text/plain",
+			);
+			NSIcon = "FileIcon_txt";
+			NSRole = Editor;
+			NSDocumentClass = Document;
+		},
+	);
 }
