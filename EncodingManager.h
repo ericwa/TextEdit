@@ -1,13 +1,7 @@
 #import <Foundation/Foundation.h>
 
-enum {
-    NoStringEncoding = 0xFFFFFFFF
-};
-
-enum {
-    WantsAutomaticTag = -1
-};
-
+extern const NSUInteger NoStringEncoding;
+extern const NSInteger WantsAutomaticTag;
 
 @interface EncodingPopUpButtonCell : NSPopUpButtonCell {
 }

@@ -42,6 +42,8 @@
 #import <Cocoa/Cocoa.h>
 #import "EncodingManager.h"
 
+const NSUInteger NoStringEncoding = 0xFFFFFFFF;
+const NSInteger WantsAutomaticTag = -1;
 
 /*
     EncodingPopUpButtonCell is a subclass of NSPopUpButtonCell which provides the ability to automatically recompute its contents on changes to the encodings list. This allows sprinkling these around the app any have them automatically update themselves. Because we really only want to know when the cell's selectedItem is changed, we want to prevent the last item ("Customize...") from being selected.
@@ -51,7 +53,7 @@
 @implementation EncodingPopUpButtonCell
 
 - (id)initTextCell:(NSString *)stringValue pullsDown:(BOOL)pullDown {
-    if (self = [super initTextCell:stringValue pullsDown:pullDown]) {        
+  if ((self = [super initTextCell:stringValue pullsDown:pullDown])) {        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(encodingsListChanged:) name:@"EncodingsListChanged" object:nil];
         [[EncodingManager sharedInstance] setupPopUpCell:self selectedEncoding:NoStringEncoding withDefaultEntry:NO];
     }
@@ -59,7 +61,7 @@
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
-    if (self = [super initWithCoder:coder]) {
+  if ((self = [super initWithCoder:coder])) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(encodingsListChanged:) name:@"EncodingsListChanged" object:nil];
         [[EncodingManager sharedInstance] setupPopUpCell:self selectedEncoding:NoStringEncoding withDefaultEntry:([self numberOfItems] > 0 && [[self itemAtIndex:0] tag] == WantsAutomaticTag)];
     }
@@ -99,7 +101,7 @@ static EncodingManager *sharedInstance = nil;
 - (id)init {
     if (sharedInstance) {		// We just have one instance of the EncodingManager class, return that one instead
         [self release];
-    } else if (self = [super init]) {
+    } else if ((self = [super init])) {
         sharedInstance = self;
     }
     return sharedInstance;

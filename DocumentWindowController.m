@@ -72,7 +72,7 @@
 @implementation DocumentWindowController
 
 - (id)init {
-    if (self = [super initWithWindowNibName:@"DocumentWindow"]) {
+  if ((self = [super initWithWindowNibName:@"DocumentWindow"])) {
 	layoutMgr = [[NSLayoutManager allocWithZone:[self zone]] init];
 	[layoutMgr setDelegate:self];
 	//[layoutMgr setAllowsNonContiguousLayout:YES];
@@ -171,7 +171,7 @@
     
     // Some settings are not enabled for plain text docs if the default "SubstitutionsEnabledInRichTextOnly" is set to YES.
     // There is no UI at this stage for this preference.
-    BOOL substitutionsOK = [[self document] isRichText] || ![defaults boolForKey:SubstitutionsEnabledInRichTextOnly];    
+    //BOOL substitutionsOK = [[self document] isRichText] || ![defaults boolForKey:SubstitutionsEnabledInRichTextOnly];    
     [textView setContinuousSpellCheckingEnabled:[defaults boolForKey:CheckSpellingAsYouType]];
     // [textView setGrammarCheckingEnabled:[defaults boolForKey:CheckGrammarWithSpelling]];
     //[textView setAutomaticSpellingCorrectionEnabled:substitutionsOK && [defaults boolForKey:CorrectSpellingAutomatically]];
@@ -301,8 +301,9 @@
 		      contextInfo: nil];
 }
 
-- (void)savePanelDidEnd:(NSSavePanel *)panel returnCode:(NSInteger)result contextInfo:(void *)contextInfo
+- (void)savePanelDidEnd:(NSSavePanel *)savePanel returnCode:(NSInteger)result contextInfo:(void *)contextInfo
 {
+  NSOpenPanel *panel = (NSOpenPanel*)savePanel;
 	if (result == NSOKButton) {	// Only if not cancelled
             NSArray *urls = [panel URLs];
 	    NSTextView *textView = [self firstTextView];

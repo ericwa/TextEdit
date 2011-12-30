@@ -139,7 +139,7 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
     NSMutableArray *layoutMgrs = [[text layoutManagers] mutableCopy];
     NSEnumerator *layoutMgrEnum = [layoutMgrs objectEnumerator];
     NSLayoutManager *layoutMgr = nil;
-    while (layoutMgr = [layoutMgrEnum nextObject]) [text removeLayoutManager:layoutMgr];
+    while ((layoutMgr = [layoutMgrEnum nextObject])) [text removeLayoutManager:layoutMgr];
     
     // We can do this loop twice, if the document is loaded as rich text although the user requested plain
     BOOL retry;
@@ -155,7 +155,7 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
         if (!success) {
 	    [text endEditing];
 	    layoutMgrEnum = [layoutMgrs objectEnumerator]; // rewind
-	    while (layoutMgr = [layoutMgrEnum nextObject]) [text addLayoutManager:layoutMgr];   // Add the layout managers back
+	    while ((layoutMgr = [layoutMgrEnum nextObject])) [text addLayoutManager:layoutMgr];   // Add the layout managers back
 	    [layoutMgrs release];
 	    return NO;	// return NO on error; outError has already been set
 	}
@@ -183,13 +183,13 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
     } while(retry);
 
     layoutMgrEnum = [layoutMgrs objectEnumerator]; // rewind
-    while (layoutMgr = [layoutMgrEnum nextObject]) [text addLayoutManager:layoutMgr];   // Add the layout managers back
+    while ((layoutMgr = [layoutMgrEnum nextObject])) [text addLayoutManager:layoutMgr];   // Add the layout managers back
     [layoutMgrs release];
     
     val = [docAttrs objectForKey:NSCharacterEncodingDocumentAttribute];
     [self setEncoding:(val ? [val unsignedIntegerValue] : NoStringEncoding)];
     
-    if (val = [docAttrs objectForKey:NSConvertedDocumentAttribute]) {
+    if ((val = [docAttrs objectForKey:NSConvertedDocumentAttribute])) {
         [self setConverted:([val integerValue] > 0)];	// Indicates filtered
         [self setLossy:([val integerValue] < 0)];	// Indicates lossily loaded
     }
@@ -723,12 +723,12 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
     NSRange range;
     NSDictionary *attrs;
     return ( [self isRichText] // Only rich -> plain can lose information.
-	     && ((length > 0) // If the document contains characters and...
+	     && (((length > 0) // If the document contains characters and...
 		 && (attrs = [textStorage attributesAtIndex:0 effectiveRange:&range])  // ...they have attributes...
 		 && ((range.length < length) // ...which either are not the same for the whole document...
 		     || ![[self defaultTextAttributes:YES] isEqual:attrs]) // ...or differ from the default, then...
 		 ) // ...we will lose styling information.
-	     || [self hasDocumentProperties]); // We will also lose information if the document has properties.
+		 || [self hasDocumentProperties])); // We will also lose information if the document has properties.
 }
 
 - (BOOL)hasMultiplePages {

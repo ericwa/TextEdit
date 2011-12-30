@@ -58,7 +58,7 @@
     [window setExcludedFromWindowsMenu:YES];
 }
 
-#pragma mark *** Font changing code ***
+//#pragma mark *** Font changing code ***
 
 - (IBAction)changeRichTextFont:(id)sender {
     // validate whatever's currently being edited first
@@ -104,7 +104,7 @@
     return [NSFont userFixedPitchFontOfSize:0.0];
 }
 
-#pragma mark *** HTML document type and styling code ***
+//#pragma mark *** HTML document type and styling code ***
 
 /* The user chooses the HTML document type using a popup button, but the actual type is represented as a two-bit bitfield, where one bit represents whether or not to use a transitional DTD and another bit determines whether or not to use XHTML. The popup button uses the bitfield's integer value as its tag.
  */
@@ -158,7 +158,7 @@
     [defaults setBool:useInline forKey:UseInlineCSS];
 }
 
-#pragma mark *** Reverting to defaults ***
+//#pragma mark *** Reverting to defaults ***
 
 - (IBAction)revertToDefault:(id)sender {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -179,7 +179,7 @@
     [[NSUserDefaultsController sharedUserDefaultsController] revertToInitialValues:nil];    // For the rest of the defaults
 }
 
-#pragma mark *** Window delegation ***
+//#pragma mark *** Window delegation ***
 
 /* We do this to catch the case where the user enters a value into one of the text fields but closes the window without hitting enter or tab.
  */
@@ -187,7 +187,7 @@
     return [window makeFirstResponder:nil]; // validate editing
 }
 
-#pragma mark *** Window size field delegation ***
+//#pragma mark *** Window size field delegation ***
 
 - (void)controlTextDidBeginEditing:(NSNotification *)note {
     originalDimensionFieldValue = [[note object] integerValue];

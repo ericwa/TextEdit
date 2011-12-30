@@ -176,7 +176,7 @@
         
         [controllersToTransfer makeObjectsPerformSelector:@selector(retain)];
         
-        while (controller = [controllerEnum nextObject]) {
+        while ((controller = [controllerEnum nextObject])) {
             [doc addWindowController:controller];
             [transientDoc removeWindowController:controller];
         }

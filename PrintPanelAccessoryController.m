@@ -57,13 +57,13 @@
 }
 
 - (void)setPageNumbering:(BOOL)flag {
-    NSPrintInfo *printInfo = [self representedObject];
-    //[[printInfo dictionary] setObject:[NSNumber numberWithBool:flag] forKey:NSPrintHeaderAndFooter];
+  NSPrintInfo *printInfo = [self representedObject];
+  [[printInfo dictionary] setObject:[NSNumber numberWithBool:flag] forKey:NSPrintHeaderAndFooter];
 }
 
 - (BOOL)pageNumbering {
-    NSPrintInfo *printInfo = [self representedObject];
-    //return [[[printInfo dictionary] objectForKey:NSPrintHeaderAndFooter] boolValue];
+  NSPrintInfo *printInfo = [self representedObject];
+  return [[[printInfo dictionary] objectForKey:NSPrintHeaderAndFooter] boolValue];
 }
 
 - (IBAction)changePageNumbering:(id)sender {
