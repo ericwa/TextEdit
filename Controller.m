@@ -111,12 +111,6 @@ static NSDictionary *defaultValues() {
     // Set up default values for preferences managed by NSUserDefaultsController
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues()];
     [[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:defaultValues()];
-#if __LP64__
-    // At some point during 32-to-64 bit transition of TextEdit, some versions erroneously wrote out the value of -1 to defaults. These values cause grief throughout the program under 64-bit, so it's best to clean them out from defaults permanently. Note that it's often considered bad form to write defaults while launching; however, here we do this only once, ever.
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([[defaults objectForKey:PlainTextEncodingForRead] unsignedIntegerValue] == 0xFFFFFFFFFFFFFFFFULL) [defaults removeObjectForKey:PlainTextEncodingForRead];
-    if ([[defaults objectForKey:PlainTextEncodingForWrite] unsignedIntegerValue] == 0xFFFFFFFFFFFFFFFFULL) [defaults removeObjectForKey:PlainTextEncodingForWrite];
-#endif
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
