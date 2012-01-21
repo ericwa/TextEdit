@@ -177,6 +177,11 @@ static const CGFloat _NSScaleMenuFontSize = 10.0;
 	NSSize newDocBoundsSize = {curDocFrameSize.width / scaleFactor, curDocFrameSize.height / scaleFactor};
 	
 	[clipView setBoundsSize:newDocBoundsSize];
+
+	// Not required on OS X, but this is an implementation detail;
+	// it's a bug not to call this here because -[NSView setBoundsSize:] is
+	// explicitly not supposed to mark the view as needing display.
+	[clipView setNeedsDisplay: YES];
     }
 }
 
