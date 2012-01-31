@@ -27,11 +27,7 @@ TextEdit_OBJC_FILES=\
 
 TextEdit_RESOURCE_FILES=\
 	DocumentWindow.nib\
-	Edit.icns\
-	html.icns\
-	rtf.icns\
-	rtfd.icns\
-	txt.icns
+	accessories-text-editor.icns
 
 TextEdit_LOCALIZED_RESOURCE_FILES=\
 	DocumentProperties.nib\

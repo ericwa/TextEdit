@@ -2,6 +2,7 @@
 	NSPrincipalClass = NSApplication;
 	ApplicationName = TextEdit;
 	NSMainNibFile = Edit;
+	NSIcon = accessories-text-editor;
 	NSServices = (
 		{
 			NSMenuItem = {
