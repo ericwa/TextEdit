@@ -40,6 +40,7 @@
 		41FA793A0B95E61A00FA84AA /* PrintPanelAccessoryController.h in Headers */ = {isa = PBXBuildFile; fileRef = 41FA79380B95E61A00FA84AA /* PrintPanelAccessoryController.h */; };
 		41FA793B0B95E61A00FA84AA /* PrintPanelAccessoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FA79390B95E61A00FA84AA /* PrintPanelAccessoryController.m */; };
 		41FA79A10B95F0F300FA84AA /* PrintPanelAccessory.nib in Resources */ = {isa = PBXBuildFile; fileRef = 41FA799F0B95F0F300FA84AA /* PrintPanelAccessory.nib */; };
+		66B13B0914D8B4C20040230D /* accessories-text-editor.icns in Resources */ = {isa = PBXBuildFile; fileRef = 66B13B0814D8B4C20040230D /* accessories-text-editor.icns */; };
 		FB69D020085E20E300646BBF /* DocumentWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = FB69D01E085E20E300646BBF /* DocumentWindowController.h */; };
 		FB69D021085E20E300646BBF /* DocumentWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB69D01F085E20E300646BBF /* DocumentWindowController.m */; };
 		FBF176CA084E77CE005F6CEB /* DocumentController.h in Headers */ = {isa = PBXBuildFile; fileRef = FBF176C8084E77CE005F6CEB /* DocumentController.h */; };
@@ -66,6 +67,7 @@
 		41FA79390B95E61A00FA84AA /* PrintPanelAccessoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrintPanelAccessoryController.m; sourceTree = "<group>"; };
 		41FA79A00B95F0F300FA84AA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrintPanelAccessory.nib; sourceTree = "<group>"; };
 		669922A113D4B3CB000E6FCB /* TextEditInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = TextEditInfo.plist; sourceTree = "<group>"; };
+		66B13B0814D8B4C20040230D /* accessories-text-editor.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "accessories-text-editor.icns"; sourceTree = "<group>"; };
 		6FE208FBFE93D5F211CA2CEA /* Document.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Document.m; sourceTree = "<group>"; };
 		6FE208FDFE93D5F211CA2CEA /* Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
 		6FE208FEFE93D5F211CA2CEA /* ScalingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScalingScrollView.m; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 		6FE20917FE93D5F211CA2CEA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				66B13B0814D8B4C20040230D /* accessories-text-editor.icns */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -292,6 +295,7 @@
 				415B217707BC0732009CEA53 /* DocumentProperties.nib in Resources */,
 				419167BC0B78226D00B4CA33 /* SelectLinePanel.nib in Resources */,
 				41FA79A10B95F0F300FA84AA /* PrintPanelAccessory.nib in Resources */,
+				66B13B0914D8B4C20040230D /* accessories-text-editor.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,8 +409,6 @@
 		41534B8F08A2B299002069FE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_PHASING = YES;
-				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 264;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -415,16 +417,10 @@
 				GCC_ENABLE_OBJC_GC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Libraries/CIncludes\"";
 				INFOPLIST_FILE = TextEditInfo.plist;
-				INSTALL_GROUP = wheel;
-				INSTALL_OWNER = root;
-				INSTALL_PATH = "$(SYSTEM_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = "$(cflags)";
 				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = TextEdit;
 				VERSIONING_SYSTEM = "apple-generic";
 				WARNING_CFLAGS = (
@@ -433,30 +429,21 @@
 					"-Wno-unknown-pragmas",
 				);
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = YES;
 			};
 			name = Debug;
 		};
 		41534B9008A2B299002069FE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_PHASING = YES;
-				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 264;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_GC = NO;
-				HEADER_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Libraries/CIncludes\"";
-				INFOPLIST_FILE = "Info-TextEdit.plist";
-				INSTALL_GROUP = wheel;
-				INSTALL_OWNER = root;
-				INSTALL_PATH = "$(SYSTEM_APPS_DIR)";
+				INFOPLIST_FILE = TextEditInfo.plist;
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = "$(cflags)";
 				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = TextEdit;
 				SECTORDER_FLAGS = (
 					"-sectorder",
@@ -473,21 +460,20 @@
 					"-Wno-unknown-pragmas",
 				);
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
 		41534B9308A2B299002069FE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				MACOSX_DEPLOYMENT_TARGET = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Debug;
 		};
 		41534B9408A2B299002069FE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				MACOSX_DEPLOYMENT_TARGET = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Release;
 		};

@@ -1,78 +1,184 @@
-{
-	NSPrincipalClass = NSApplication;
-	ApplicationName = TextEdit;
-	NSMainNibFile = Edit;
-	NSIcon = accessories-text-editor;
-	NSServices = (
-		{
-			NSMenuItem = {
-				default = "TextEdit/Open Selection";
-			};
-			NSMessage = openSelection;
-			NSPortName = TextEdit;
-			NSSendTypes = (
-				NSStringPboardType,
-				NSRTFPboardType,
-				NSRTFDPboardType,
-			);
-		},
-		{
-			NSMenuItem = {
-				default = "TextEdit/Open File";
-			};
-			NSMessage = openFile;
-			NSPortName = TextEdit;
-			NSSendTypes = (
-				NSStringPboardType,
-				"NSFilenamesPboardType",
-			);
-		},
-	);
-	NSTypes = (
-		{
-			NSName = rtf;
-			NSHumanReadableName = "RTF Document";
-			NSUnixExtensions = (
-				rtf,
-			);
-			NSDOSExtensions = (
-				rtf,
-			);
-			NSMIMETypes = (
-				"text/rtf",
-			);
-			NSIcon = "FileIcon_rtf";
-			NSRole = Editor;
-			NSDocumentClass = Document;
-		},
-		{
-			NSName = rtfd;
-			NSHumanReadableName = "RTFD Document";
-			NSUnixExtensions = (
-				rtfd,
-			);
-			NSDOSExtensions = (
-				rtfd,
-			);
-			NSIcon = "FileIcon_rtf";
-			NSRole = Editor;
-			NSDocumentClass = Document;
-		},
-		{
-			NSName = text;
-			NSHumanReadableName = "Text Document";
-			NSUnixExtensions = (
-				txt,
-			);
-			NSDOSExtensions = (
-				txt,
-			);
-			NSMIMETypes = (
-				"text/plain",
-			);
-			NSIcon = "FileIcon_txt";
-			NSRole = Editor;
-			NSDocumentClass = Document;
-		},
-	);
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ApplicationName</key>
+	<string>TextEdit</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>rtf</string>
+			</array>
+			<key>CFBundleTypeMIMETypes</key>
+			<array>
+				<string>text/rtf</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>RTF Document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>rtf</string>
+			</array>
+			<key>NSDocumentClass</key>
+			<string>Document</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>txt</string>
+			</array>
+			<key>CFBundleTypeMIMETypes</key>
+			<array>
+				<string>text/plain</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Text Document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>text</string>
+			</array>
+			<key>NSDocumentClass</key>
+			<string>Document</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>rtfd</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>RTFD Document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>rtfd</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<true/>
+			<key>NSDocumentClass</key>
+			<string>Document</string>
+		</dict>
+	</array>
+	<key>CFBundleIconFile</key>
+	<string>accessories-text-editor.icns</string>
+	<key>NSIcon</key>
+	<string>accessories-text-editor</string>
+	<key>NSMainNibFile</key>
+	<string>Edit</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+	<key>NSServices</key>
+	<array>
+		<dict>
+			<key>NSMenuItem</key>
+			<dict>
+				<key>default</key>
+				<string>TextEdit/Open Selection</string>
+			</dict>
+			<key>NSMessage</key>
+			<string>openSelection</string>
+			<key>NSPortName</key>
+			<string>TextEdit</string>
+			<key>NSSendTypes</key>
+			<array>
+				<string>NSStringPboardType</string>
+				<string>NSRTFPboardType</string>
+				<string>NSRTFDPboardType</string>
+			</array>
+		</dict>
+		<dict>
+			<key>NSMenuItem</key>
+			<dict>
+				<key>default</key>
+				<string>TextEdit/Open File</string>
+			</dict>
+			<key>NSMessage</key>
+			<string>openFile</string>
+			<key>NSPortName</key>
+			<string>TextEdit</string>
+			<key>NSSendTypes</key>
+			<array>
+				<string>NSStringPboardType</string>
+				<string>NSFilenamesPboardType</string>
+			</array>
+		</dict>
+	</array>
+	<key>NSTypes</key>
+	<array>
+		<dict>
+			<key>NSDOSExtensions</key>
+			<array>
+				<string>rtf</string>
+			</array>
+			<key>NSDocumentClass</key>
+			<string>Document</string>
+			<key>NSHumanReadableName</key>
+			<string>RTF Document</string>
+			<key>NSIcon</key>
+			<string>FileIcon_rtf</string>
+			<key>NSMIMETypes</key>
+			<array>
+				<string>text/rtf</string>
+			</array>
+			<key>NSName</key>
+			<string>rtf</string>
+			<key>NSRole</key>
+			<string>Editor</string>
+			<key>NSUnixExtensions</key>
+			<array>
+				<string>rtf</string>
+			</array>
+		</dict>
+		<dict>
+			<key>NSDOSExtensions</key>
+			<array>
+				<string>rtfd</string>
+			</array>
+			<key>NSDocumentClass</key>
+			<string>Document</string>
+			<key>NSHumanReadableName</key>
+			<string>RTFD Document</string>
+			<key>NSIcon</key>
+			<string>FileIcon_rtf</string>
+			<key>NSName</key>
+			<string>rtfd</string>
+			<key>NSRole</key>
+			<string>Editor</string>
+			<key>NSUnixExtensions</key>
+			<array>
+				<string>rtfd</string>
+			</array>
+		</dict>
+		<dict>
+			<key>NSDOSExtensions</key>
+			<array>
+				<string>txt</string>
+			</array>
+			<key>NSDocumentClass</key>
+			<string>Document</string>
+			<key>NSHumanReadableName</key>
+			<string>Text Document</string>
+			<key>NSIcon</key>
+			<string>FileIcon_txt</string>
+			<key>NSMIMETypes</key>
+			<array>
+				<string>text/plain</string>
+			</array>
+			<key>NSName</key>
+			<string>text</string>
+			<key>NSRole</key>
+			<string>Editor</string>
+			<key>NSUnixExtensions</key>
+			<array>
+				<string>txt</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>
