@@ -150,7 +150,7 @@ static const CGFloat _NSScaleMenuFontSize = 10.0;
 }
 
 - (IBAction)scalePopUpAction:(id)sender {
-    NSNumber *selectedFactorObject = [sender representedObject];
+    NSNumber *selectedFactorObject = [[sender selectedCell] representedObject];
     
     if (selectedFactorObject == nil) {
         NSLog(@"Scale popup action: setting arbitrary zoom factors is not yet supported.");
