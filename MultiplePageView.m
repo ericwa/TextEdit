@@ -47,6 +47,7 @@
 
 - (id)initWithFrame:(NSRect)rect {
     if ((self = [super initWithFrame:rect])) {
+		twoPage = YES;
         numPages = 0;
         [self setLineColor:[NSColor lightGrayColor]];
         [self setMarginColor:[NSColor whiteColor]];
@@ -68,8 +69,19 @@
     if ([self superview]) {
         NSRect rect = NSZeroRect;
         rect.size = [printInfo paperSize];
-        rect.size.height = rect.size.height * numPages;
-        if (numPages > 1) rect.size.height += [self pageSeparatorHeight] * (numPages - 1);
+		
+		if (twoPage)
+		{
+			rect.size.height = rect.size.height * ceil(numPages / 2.0);        
+			if (numPages > 1) rect.size.height += [self pageSeparatorHeight] * (ceil(numPages / 2.0) - 1);			
+			rect.size.width = (2 * rect.size.width) + [self pageSeparatorHeight];
+		}
+		else
+		{
+			rect.size.height = rect.size.height * numPages;        
+			if (numPages > 1) rect.size.height += [self pageSeparatorHeight] * (numPages - 1);			
+		}
+		
         rect.size = [self convertSize:rect.size toView:[self superview]];
         [self setFrame:rect];
     }
@@ -132,8 +144,18 @@
 - (NSRect)pageRectForPageNumber:(NSUInteger)pageNumber {
     NSRect rect;
     rect.size = [printInfo paperSize];
-    rect.origin = [self frame].origin;
-    rect.origin.y += ((rect.size.height + [self pageSeparatorHeight]) * pageNumber);
+	rect.origin = [self frame].origin;
+	
+	if (twoPage)
+	{
+		rect.origin.x += (pageNumber % 2 == 0) ? 0 : (rect.size.width + [self pageSeparatorHeight]);
+		rect.origin.y += ((rect.size.height + [self pageSeparatorHeight]) * floor(pageNumber / 2.0));
+	}
+	else
+	{
+		rect.origin.y += ((rect.size.height + [self pageSeparatorHeight]) * pageNumber);
+	}
+
     return rect;
 }
 
