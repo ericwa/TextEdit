@@ -92,7 +92,7 @@
         // We only expect to see plain-text, RTF, and RTFD at this point.
         NSString *docType = [attributes objectForKey:NSDocumentTypeDocumentAttribute];
         if ([docType isEqualToString:NSPlainTextDocumentType]) {
-	  type = @"txt";
+	  type = @"text";
         } else if ([docType isEqualToString:NSRTFTextDocumentType]) {
 	  type = @"rtf";
         } else if ([docType isEqualToString:NSRTFDTextDocumentType]) {
@@ -119,7 +119,7 @@
             
             NSTextStorage *text = [doc textStorage];
             [text replaceCharactersInRange:NSMakeRange(0, [text length]) withAttributedString:string];
-            if ([type isEqualToString: @"txt"]) [doc applyDefaultTextAttributes:NO];
+            if ([type isEqualToString: @"text"]) [doc applyDefaultTextAttributes:NO];
             
             [self addDocument:doc];
             [doc updateChangeCount:NSChangeReadOtherContents];
@@ -336,7 +336,7 @@
    -defaultType to return the appropriate type string. 
 */
 - (NSString *)defaultType {
-  return (NSString *)([[NSUserDefaults standardUserDefaults] boolForKey:RichText] ? @"rtf" : @"txt");
+  return (NSString *)([[NSUserDefaults standardUserDefaults] boolForKey:RichText] ? @"rtf" : @"text");
 }
 
 @end

@@ -88,7 +88,7 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
     static NSDictionary *documentMappings = nil;
     if (documentMappings == nil) {
 	documentMappings = [[NSDictionary alloc] initWithObjectsAndKeys:
-            @"txt", NSPlainTextDocumentType,
+            @"text", NSPlainTextDocumentType,
             @"rtf", NSRTFTextDocumentType,
             @"rtfd", NSRTFDTextDocumentType,
 	    nil];
@@ -130,7 +130,7 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
 
     if ((ignoreRTF && ([typeName isEqualToString: @"rtfd"] || [typeName isEqualToString: @"rtf"])) || [self isOpenedIgnoringRichText]) {
         [options setObject:NSPlainTextDocumentType forKey:NSDocumentTypeDocumentOption]; // Force plain
-	[self setFileType: @"txt"];
+	[self setFileType: @"text"];
 	[self setOpenedIgnoringRichText:YES];
     }
     
@@ -167,7 +167,7 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
 	    [text endEditing];
 	    [[text mutableString] setString:@""];
 	    [options setObject:NSPlainTextDocumentType forKey:NSDocumentTypeDocumentOption];
-	    [self setFileType: @"txt"];
+	    [self setFileType: @"text"];
 	    [self setOpenedIgnoringRichText:YES];
 	    retry = YES;
 	} else {
@@ -177,7 +177,7 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
 	    } else {
 		[self setFileType:@"rtf"];	// Hmm, a new type in the Cocoa text system. Treat it as rich. ??? Should set the converted flag too?
 	    }
-	    if ([self fileType] == nil || [[self fileType] isEqualToString: @"txt"]) [self applyDefaultTextAttributes:NO];
+	    if ([self fileType] == nil || [[self fileType] isEqualToString: @"text"]) [self applyDefaultTextAttributes:NO];
 	    [text endEditing];
 	}
     } while(retry);
@@ -352,7 +352,7 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
     
     if ([@"rtf" isEqualToString:typeName]) docType = NSRTFTextDocumentType;
     else if ([@"rtfd" isEqualToString:typeName]) docType = NSRTFDTextDocumentType;
-    else if ([@"txt" isEqualToString:typeName]) docType = NSPlainTextDocumentType;
+    else if ([@"text" isEqualToString:typeName]) docType = NSPlainTextDocumentType;
     else [NSException raise:NSInvalidArgumentException format:@"%@ is not a recognized document type.", typeName];
     
     if (docType) [dict setObject:docType forKey:NSDocumentTypeDocumentAttribute];
@@ -561,7 +561,7 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
 */
 - (void)setRichText:(BOOL)flag {
     if (flag != [self isRichText]) {
-	[self setFileType:(NSString *)(flag ? @"rtf" : @"txt")];
+	[self setFileType:(NSString *)(flag ? @"rtf" : @"text")];
 	if (flag) {
 	    [self setDocumentPropertiesToDefaults];
 	} else {
@@ -571,7 +571,7 @@ NSString *OpenDocumentTextType = @"org.oasis-open.opendocument.text";
 }
 
 - (BOOL)isRichText {
-  return ![[self fileType] isEqualToString: @"txt"];
+  return ![[self fileType] isEqualToString: @"text"];
 }
 
 
@@ -895,7 +895,7 @@ CGFloat defaultTextPadding(void) {
     if (saveOperation == NSSaveAsOperation) {
 	/* Rich-text documents cannot be saved as plain text. */
 	if ([self isRichText]) {
-	    [outArray removeObject:@"txt"];
+	    [outArray removeObject:@"text"];
 	}
 	
 	/* Documents that contain attacments can only be saved in formats that support embedded graphics. */
