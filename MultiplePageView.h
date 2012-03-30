@@ -1,7 +1,6 @@
 #import <Cocoa/Cocoa.h>
 
 @interface MultiplePageView : NSView {
-	BOOL twoPage;
     NSPrintInfo *printInfo;
     NSColor *lineColor;
     NSColor *marginColor;
