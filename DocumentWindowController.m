@@ -536,7 +536,12 @@ attachmentFlag allows for optimizing some cases where we know we have no attachm
 	    NSInteger windowWidth = [defaults integerForKey:WindowWidth];
 	    NSFont *font = [[self document] isRichText] ? [NSFont userFontOfSize:0.0] : [NSFont userFixedPitchFontOfSize:0.0];
             NSSize size;
-            size.height = ceil([font defaultLineHeightForFont] * windowHeight);
+#ifdef GNUSTEP
+            const CGFloat defaultLineHeight = [font defaultLineHeightForFont];
+#else
+            const CGFloat defaultLineHeight = [[self layoutManager] defaultLineHeightForFont: font];
+#endif
+            size.height = ceil(defaultLineHeight * windowHeight);
             size.width = [@"x" sizeWithAttributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width;
             if (size.width == 0.0) size.width = [@" " sizeWithAttributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width; /* try for space width */
             if (size.width == 0.0) size.width = [font maximumAdvancement].width; /* or max width */
