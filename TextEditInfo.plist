@@ -4,6 +4,20 @@
 <dict>
 	<key>ApplicationName</key>
 	<string>TextEdit</string>
+        <key>ApplicationDescription</key>
+        <string>an OpenStep text editor</string>
+        <key>ApplicationIcon</key>
+        <string>Edit.tiff</string>
+        <key>ApplicationName</key>
+        <string>TextEdit</string>
+        <key>ApplicationRelease</key>
+        <string>5</string>
+        <key>Authors</key>
+        <string>Ali Ozer, Jiang Jiang, Eric Wasylishen, Jeff Teunissen, Mike Ferris, David Remahl, Jordan Rose</string>
+        <key>Copyright</key>
+        <string>Copyright 1995-1996 NeXT Software, Inc., 2001-2010 Dusk to Dawn Computing, 1995-2009 by Apple Computer, Inc., all rights reserved.</string>
+        <key>CopyrightDescription</key>
+        <string>You may freely copy, distribute, and reuse the code in this example.</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
